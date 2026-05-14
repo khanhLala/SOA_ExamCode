@@ -1,6 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package GRPC;
 
-import io.grpc.*;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import java.util.Arrays;
 
 /**
  Nội dung
@@ -8,23 +14,21 @@ import io.grpc.*;
 
     Yêu cầu: Viết chương trình Java (gRPC client) để giao tiếp với JudgeService và thực hiện các công việc sau:
 
-    Tạo kết nối gRPC tới server (plaintext, không TLS) và gọi phương thức Request với student_code là mã sinh viên và question_alias là <question_alias trong đề bài>.
+    Gọi phương thức Request với student_code là mã sinh viên và question_alias là <question_alias trong đề bài>.
 
-    Nhận về JudgeResponse chứa request_id là chuỗi định danh duy nhất, ví dụ "a1b2c3d4", và data là chuỗi các số nguyên phân tách bằng dấu phẩy, ví dụ "12,45,88,3,210".
+    Nhận về JudgeResponse chứa request_id là chuỗi định danh và data là các từ phân tách bằng dấu phẩy, ví dụ "banana,apple,cherry,date".
 
-    Parse chuỗi data thành danh sách số nguyên và tính tổng.
+    Parse chuỗi data thành danh sách từ, sắp xếp theo thứ tự từ điển (không phân biệt hoa thường - case-insensitive).
 
-    Gọi phương thức Submit với student_code là mã sinh viên, question_alias là <question_alias trong đề bài>, request_id là giá trị nhận được ở bước 1, và answer là kết quả tổng dạng chuỗi, ví dụ "141".
+    Gọi phương thức Submit với request_id là giá trị nhận được ở bước 1 và answer là danh sách từ đã sắp xếp, phân tách bằng dấu phẩy, ví dụ "apple,banana,cherry,date".
 
     Trong lời gọi Submit, request_id phải là giá trị đã nhận được ở bước 1.
 
-    Nhận về SubmitResponse chứa status ("AC" / "WA" / "RTE") và message.
-
-    Ví dụ: data = "1,2,3,4,5" -> tổng = 15 -> answer = "15"
+    Ví dụ: data = "banana,apple,cherry" -> sort case-insensitive -> answer = "apple,banana,cherry"
 
     Đóng kênh gRPC và kết thúc chương trình.
 
-    Proto Contract
+    IDL (Proto Contract)
     syntax = "proto3";
     package GRPC;
     option java_package = "GRPC";
@@ -55,16 +59,15 @@ import io.grpc.*;
     message SubmitResponse {
       string status  = 1;
       string message = 2;
-    } 
-*/
-
-public class GRPCData {
-
-    public static void main(String[] args) throws Exception {
+    }
+    Field numbers phải giữ nguyên để đúng wire format protobuf. package GRPC và service name JudgeService phải đúng theo đặc tả.
+ */
+public class GRPCCharacter {
+    public static void main(String[] args) throws Exception{
         String host = "36.50.135.242";
         int port = 2240;
         String studentCode = "B22DCCN444"; 
-        String questionAlias = "PfA1YuGQ";
+        String questionAlias = "dcleT3ta";
 
         // 1. Tạo kết nối với host và port
         ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
@@ -93,15 +96,12 @@ public class GRPCData {
 
         // 4. Xử lý logic 
         // muốn biết kiểu dữ liệu của data => nhìn vào file .proto/JudgeResponse
-        long sum = 0;
-        if (!data.isEmpty()) {
-            String[] numbers = data.split(",");
-            for (String numStr : numbers) {
-                sum += Integer.parseInt(numStr.trim());
-            }
-        }
-        String answer = String.valueOf(sum);
-        System.out.println(answer);
+
+        String[] words = data.split(",");
+        Arrays.sort(words);
+        System.out.println(words);
+        
+        String answer = String.join(",", words);
 
         // 5. Submit bằng cách gọi phương thức SubmitRequest
         SubmitRequest submitReq = SubmitRequest.newBuilder()

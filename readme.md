@@ -30,6 +30,7 @@ Sau khi dự án được tạo, bạn cần thiết lập các thư viện cầ
 3.  **Tạo file định nghĩa**: Bên trong mục này, hãy tạo một file mới có đuôi `.proto` (ví dụ: `judge.proto`).
 4.  **Cấu hình Proto**: Sao chép toàn bộ đoạn mã định nghĩa dịch vụ từ đề bài (bắt đầu từ dòng `syntax = "proto3";`...) và dán vào file vừa tạo.
 5.  **Sinh mã nguồn**: Chuột phải vào dự án và chọn **Clean and Build**. Sau khi quá trình này hoàn tất, các class Java hỗ trợ gRPC sẽ được tự động tạo ra và bạn có thể bắt đầu viết code Client.
+6.  **Lưu ý**: Mỗi lần code bài gRPC mới cần xoá file .proto của bài cũ đi để tránh xung đột do các phương thức thầy để đều giống nhau (mặc dù các file proto là giống nhau nên có thể không cần làm vậy, nhưng đi thi cứ nên làm cho chắc)
 
 ---
 

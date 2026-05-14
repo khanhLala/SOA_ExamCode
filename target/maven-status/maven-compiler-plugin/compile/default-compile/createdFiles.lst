@@ -6,6 +6,7 @@ GRPC\SubmitRequest$1.class
 GRPC\JudgeServiceGrpc$AsyncService.class
 GRPC\SubmitRequest.class
 GRPC\SubmitResponse$1.class
+GRPC\GRPCCharacter.class
 GRPC\JudgeServiceGrpc$JudgeServiceMethodDescriptorSupplier.class
 GRPC\JudgeServiceGrpc$JudgeServiceBaseDescriptorSupplier.class
 GRPC\JudgeServiceGrpc$MethodHandlers.class
@@ -17,6 +18,7 @@ GRPC\JudgeRequest.class
 GRPC\JudgeServiceGrpc$JudgeServiceStub.class
 GRPC\SubmitRequest$Builder.class
 REST\RestMethodPut.class
+GRPC\GRPCObject.class
 REST\RestCharacter.class
 GRPC\JudgeServiceGrpc$3.class
 REST\RestHeader.class
